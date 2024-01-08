@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employees - Contact Info</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="image/fac.png" />
+
+    <link rel="stylesheet" href="css/homepage.css" />
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="css/swiper-bundle.min.css" />
+  </head>
+
+  <body>
+    <nav style="height: 8vh">
+      <ul>
+        <a href="/homepage"><img src="image/fac.png" class="logo2" alt="" /></a>
+        <a href="/homepage" class="logo">Employees - Pushover users</a>
+        <form id="search" action="/homepage" method="get">
+          <li class="search-icon">
+            <input
+              type="search"
+              placeholder="Search employees"
+              id="search-bar"
+              name="search"
+            />
+            <label class="icon">
+              <button>
+                <span class="fas fa-search" type="submit"></span>
+              </button>
+            </label>
+          </li>
+        </form>
+      </ul>
+    </nav>
+
+    <section style="height: 87vh">
+      <div class="slide-container swiper">
+        <div class="slide-content">
+          <div class="card-wrapper swiper-wrapper">
+            <% for (let index = 0; index < EmployeeModel.length; index++) { %>
+            <div class="card swiper-slide">
+              <div class="image-content">
+                <span class="overlay"></span>
+
+                <div class="card-image">
+                  <img
+                    src="<%= EmployeeModel[index].image %>"
+                    alt=""
+                    class="card-img"
+                  />
+                </div>
+              </div>
+              <div class="card-content">
+                <h2 class="name">
+                  <%= EmployeeModel[index].firstname%>
+                  <%=EmployeeModel[index].lastname%> -
+                  <%=EmployeeModel[index].department %>
+                </h2>
+                <span class="name"
+                  >Phone : <%= EmployeeModel[index].phone %></span
+                >
+                <span class="name"
+                  >Email : <%= EmployeeModel[index].email %></span
+                >
+
+                <button
+                  onclick="sendEmail('<%= EmployeeModel[index].push_mail %>','<%= EmployeeModel[index].firstname%>')"
+                  class="button"
+                >
+                  Push Over
+                </button>
+              </div>
+            </div>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="swiper-button-next swiper-navBtn"></div>
+        <div class="swiper-button-prev swiper-navBtn"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+  </body>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <h2>© 2024 Copyright</h2>
+      </div>
+    </div>
+  </footer>
+
+  <!-- google api -->
+  <script src="https://apis.google.com/js/api.js"></script>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+  <!-- ejs -->
+  <script src="https://cdn.jsdelivr.net/npm/ejs"></script>
+
+  <!-- java js -->
+  <script>
+    const swiper = new Swiper(".slide-content", {
+      slidesPerView: 3,
+      spaceBetween: 25,
+      centeredSlides: false,
+      loop: true,
+      grabCursor: true,
+      fade: true,
+      pagination: {
+        el: ".swiper-pagination",
+        type: "fraction",
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 1,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 40,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 50,
+        },
+      },
+    });
+  </script>
+
+  <script>
+    function sendEmail(recipient, name) {
+      const subject = "Subject of email";
+      const body = `Hi ${name},\n\ncould you join us please to the zoom escalation.\n\n\n\n Regards,`;
+      var baseUrl = "https://mail.google.com/mail/u/0/?view=cm&fs=1";
+      var toParam = "&to=" + recipient;
+      var subjectParam = "&su=" + encodeURIComponent(subject);
+      var bodyParam = "&body=" + encodeURIComponent(body);
+      var composeUrl = baseUrl + toParam + subjectParam + bodyParam;
+      window.open(composeUrl);
+    }
+  </script>
+</html>
